@@ -149,12 +149,12 @@
   <h1>SME Evaluation Dashboard</h1>
   <p>Patient-Facing AI Expert · Pre-Visit Education Tool · Anonymous Evaluator Responses</p>
   <div class="chips">
-    <span class="chip">11 SME Evaluators</span>
+    <span class="chip">13 SME Evaluators</span>
     <span class="chip">7 Rated Dimensions</span>
     <span class="chip">Rating Scale: 1–5</span>
     <span class="chip navi">Navi Team · 5</span>
     <span class="chip ai">AI Team · 2</span>
-    <span class="chip clinical">Clinical Team · 4</span>
+    <span class="chip clinical">Clinical Team · 6</span>
   </div>
 </div>
 
@@ -299,7 +299,7 @@ const DIMS = [
 // Clinical Acc.:   Some inaccuracies=2, Generally accurate=3, Mostly accurate=4, Highly accurate=5
 // User Experience: Below average=2, Acceptable=3, Good=4
 // Conv. Flow:      Acceptable=3, Good=4, Excellent=5
-// Tone/Empathy:    Not empathetic at all=1, Moderately=3, Very=4, Exceptionally=5
+// Tone/Empathy:    Not empathetic at all=1, Minimally empathetic=2, Moderately=3, Very=4, Exceptionally=5
 // Safety:          Minor concerns=3, Appropriate and safe=4, Very well-bounded=5
 
 const ROLES = [
@@ -348,7 +348,7 @@ const RESP = [
     confusion:   "I can see the effort to create an empathetic tone — it's just not showing consistently. Sentence length might interfere with a patient's ability to comprehend the info. I'd love more bolding, plain language terms first, and a high-level summary at the top.",
     improvement: "I'd love to see a little bit of Mayo Clinic branding in the UI — reminding patients that this is Mayo Clinic-vetted content might help them feel more comfortable." },
 
-  // ── Clinical Team (4) ──────────────────────────────────────────
+  // ── Clinical Team (6) ──────────────────────────────────────────
   { role:'Clinical Team',
     scores: { info:1, length:1, accuracy:3, ux:4, flow:3, tone:3, safety:4 },
     helpful:     'Ability to ask open ended questions.',
@@ -369,6 +369,16 @@ const RESP = [
     helpful:     'Collated a large amount of patient information into a user-friendly (once improved) platform; I like that they can link to specifics.',
     confusion:   "Clunky answers regarding what it can't provide — there is almost always some generic information that can address their questions, then refer to their care team.",
     improvement: 'More patient friendly second-person language; encouraging tone ("That\'s a common/great question…").' },
+  { role:'Clinical Team',
+    scores: { info:5, length:5, accuracy:3, ux:3, flow:3, tone:2, safety:3 },
+    helpful:     'Flexibility and ease of addressing different types of questions. Reliable source data.',
+    confusion:   'Some answers were confused or partially answered and then deferred to appointment.',
+    improvement: '' },
+  { role:'Clinical Team',
+    scores: { info:5, length:5, accuracy:4, ux:4, flow:3, tone:2, safety:4 },
+    helpful:     'Can answer some basic questions about breast cancer treatment.',
+    confusion:   'Some difficulty with answering questions about silicone vs saline implants.',
+    improvement: 'I would try to avoid the very generic statements at the beginning of each response and go directly into the more specific response.' },
 ];
 
 // ═══════════════════════ STATE & HELPERS ═════════════════════════
@@ -420,7 +430,7 @@ function renderSummary() {
   const top=sorted[0], bot=sorted[sorted.length-1];
   const cards=[
     { l:'Overall Avg',  v:oa,            s:'of 5.0',               c:scoreColor(oa) },
-    { l:'Evaluators',   v:rs.length,     s:'of 11 total',           c:'#6366f1' },
+    { l:'Evaluators',   v:rs.length,     s:'of 13 total',           c:'#6366f1' },
     { l:'High Scores',  v:hi,            s:'≥ 4 (Good/Excellent)',  c:'#16a34a' },
     { l:'Fair Scores',  v:mi,            s:'= 3 (Fair)',            c:'#ca8a04' },
     { l:'Low Scores',   v:lo,            s:'≤ 2 (Poor)',            c:'#ea580c' },
