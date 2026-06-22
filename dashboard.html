@@ -149,12 +149,12 @@
   <h1>SME Evaluation Dashboard</h1>
   <p>Patient-Facing AI Expert · Pre-Visit Education Tool · Anonymous Evaluator Responses</p>
   <div class="chips">
-    <span class="chip">13 SME Evaluators</span>
+    <span class="chip">16 SME Evaluators</span>
     <span class="chip">7 Rated Dimensions</span>
     <span class="chip">Rating Scale: 1–5</span>
     <span class="chip navi">Navi Team · 5</span>
     <span class="chip ai">AI Team · 2</span>
-    <span class="chip clinical">Clinical Team · 6</span>
+    <span class="chip clinical">Clinical Team · 9</span>
   </div>
 </div>
 
@@ -294,13 +294,13 @@ const DIMS = [
 ];
 
 // Score mapping reference (for documentation):
-// Info Amount:     Far too much=1, Slightly too much/little=3, About right=5
+// Info Amount:     Far too little/much=1, Slightly too much/little=3, About right=5
 // Response Length: Much too long=1, Slightly too long=3, About right=5
 // Clinical Acc.:   Some inaccuracies=2, Generally accurate=3, Mostly accurate=4, Highly accurate=5
-// User Experience: Below average=2, Acceptable=3, Good=4
+// User Experience: Below average=2, Acceptable=3, Good=4, Excellent patient-centered=5
 // Conv. Flow:      Acceptable=3, Good=4, Excellent=5
 // Tone/Empathy:    Not empathetic at all=1, Minimally empathetic=2, Moderately=3, Very=4, Exceptionally=5
-// Safety:          Minor concerns=3, Appropriate and safe=4, Very well-bounded=5
+// Safety:          Some boundary concerns=2, Minor concerns=3, Appropriate and safe=4, Very well-bounded=5
 
 const ROLES = [
   { id:'Navi Team',     color:'#0ea5e9', bg:'#e0f2fe', textcol:'#0c4a6e' },
@@ -316,6 +316,11 @@ const RESP = [
     confusion:   'I was confused',
     improvement: 'Nothing. It was perfect' },
   { role:'Navi Team',
+    scores: { info:1, length:3, accuracy:4, ux:5, flow:4, tone:5, safety:4 },
+    helpful:     'elena',
+    confusion:   'elena',
+    improvement: 'elena' },
+  { role:'Navi Team',
     scores: { info:5, length:5, accuracy:3, ux:4, flow:4, tone:4, safety:5 },
     helpful:     'I like that it used both medical terms as well as more basic terms that a patient would be familiar with.',
     confusion:   'When it would state "from the documents you provided" — makes it seem like the patient was providing information.',
@@ -330,30 +335,30 @@ const RESP = [
     helpful:     'I found that it was very good information. Answers were short enough yet gave the information that people would want and could add questions from the information given.',
     confusion:   'Nothing that I saw from my perspective.',
     improvement: 'That the cadence with the answers was quicker.' },
-  { role:'Navi Team',
+
+  // ── AI Team (2) ────────────────────────────────────────────────
+  { role:'AI Team',
     scores: { info:3, length:3, accuracy:2, ux:2, flow:3, tone:4, safety:3 },
     helpful:     "Base information was helpful, the style of writing was easily understandable in layman's terms.",
     confusion:   "Some of the answers suggested additional questions or tasks that could then not be answered or completed due to limitations of the tool.",
     improvement: 'The lag of time it took to answer the questions — might improve with the final product. Give a better explanation if a question is unable to be answered.' },
-
-  // ── AI Team (2) ────────────────────────────────────────────────
   { role:'AI Team',
-    scores: { info:5, length:3, accuracy:5, ux:3, flow:4, tone:3, safety:4 },
-    helpful:     'The robust nature of the responses is GREAT. These patients are desperate for details and I love that we are giving it to them!',
-    confusion:   'Mostly the reading level. Many terms will be new to these patients and they will be overwhelmed.',
-    improvement: 'Fix reading level; update to address the user more warmly using you/your; include survival statistics; point users to the Connect community.' },
-  { role:'AI Team',
-    scores: { info:5, length:3, accuracy:4, ux:3, flow:3, tone:3, safety:4 },
-    helpful:     'It definitely presents a wealth of information about certain breast cancer topics. Patients could find accurate, Mayo Clinic-sourced answers to their questions.',
-    confusion:   "I can see the effort to create an empathetic tone — it's just not showing consistently. Sentence length might interfere with a patient's ability to comprehend the info. I'd love more bolding, plain language terms first, and a high-level summary at the top.",
-    improvement: "I'd love to see a little bit of Mayo Clinic branding in the UI — reminding patients that this is Mayo Clinic-vetted content might help them feel more comfortable." },
-
-  // ── Clinical Team (6) ──────────────────────────────────────────
-  { role:'Clinical Team',
     scores: { info:1, length:1, accuracy:3, ux:4, flow:3, tone:3, safety:4 },
     helpful:     'Ability to ask open ended questions.',
     confusion:   'There were some bullets that seemed to contradict each other.',
     improvement: 'Make it more succinct with less disclaimers.' },
+
+  // ── Clinical Team (9) ──────────────────────────────────────────
+  { role:'Clinical Team',
+    scores: { info:5, length:3, accuracy:5, ux:3, flow:4, tone:3, safety:4 },
+    helpful:     'The robust nature of the responses is GREAT. These patients are desperate for details and I love that we are giving it to them!',
+    confusion:   'Mostly the reading level. Many terms will be new to these patients and they will be overwhelmed.',
+    improvement: 'Fix reading level; update to address the user more warmly using you/your; include survival statistics; point users to the Connect community.' },
+  { role:'Clinical Team',
+    scores: { info:5, length:3, accuracy:4, ux:3, flow:3, tone:3, safety:4 },
+    helpful:     'It definitely presents a wealth of information about certain breast cancer topics. Patients could find accurate, Mayo Clinic-sourced answers to their questions.',
+    confusion:   "I can see the effort to create an empathetic tone — it's just not showing consistently. Sentence length might interfere with a patient's ability to comprehend the info. I'd love more bolding, plain language terms first, and a high-level summary at the top.",
+    improvement: "I'd love to see a little bit of Mayo Clinic branding in the UI — reminding patients that this is Mayo Clinic-vetted content might help them feel more comfortable." },
   { role:'Clinical Team',
     scores: { info:5, length:5, accuracy:5, ux:4, flow:4, tone:4, safety:4 },
     helpful:     "I liked that there was a 'short answer' and an expanded answer below for most of my prompts — it makes it approachable for different types of patients.",
@@ -379,6 +384,16 @@ const RESP = [
     helpful:     'Can answer some basic questions about breast cancer treatment.',
     confusion:   'Some difficulty with answering questions about silicone vs saline implants.',
     improvement: 'I would try to avoid the very generic statements at the beginning of each response and go directly into the more specific response.' },
+  { role:'Clinical Team',
+    scores: { info:1, length:1, accuracy:2, ux:4, flow:4, tone:2, safety:2 },
+    helpful:     'I asked many questions — including questions directly from my Epic inbasket. The answers were not helpful because the training material is not on med onc. No information on common med onc things, including chemotherapy, oncotype etc.',
+    confusion:   '',
+    improvement: 'I think there could have been more empathy in the stage IV response.' },
+  { role:'Clinical Team',
+    scores: { info:5, length:5, accuracy:3, ux:4, flow:4, tone:2, safety:3 },
+    helpful:     'Language was clear and concise. Responses were timely. Having links to source documents will be beneficial.',
+    confusion:   "Content was presented above the level of 8th grade reading. I'd consider removing the ABC words while responses are being generated — a few, while playful, could be perceived as unserious or off-putting.",
+    improvement: 'Adjust the reading level of the content and optimize for a more empathetic tone.' },
 ];
 
 // ═══════════════════════ STATE & HELPERS ═════════════════════════
@@ -430,7 +445,7 @@ function renderSummary() {
   const top=sorted[0], bot=sorted[sorted.length-1];
   const cards=[
     { l:'Overall Avg',  v:oa,            s:'of 5.0',               c:scoreColor(oa) },
-    { l:'Evaluators',   v:rs.length,     s:'of 13 total',           c:'#6366f1' },
+    { l:'Evaluators',   v:rs.length,     s:'of 16 total',           c:'#6366f1' },
     { l:'High Scores',  v:hi,            s:'≥ 4 (Good/Excellent)',  c:'#16a34a' },
     { l:'Fair Scores',  v:mi,            s:'= 3 (Fair)',            c:'#ca8a04' },
     { l:'Low Scores',   v:lo,            s:'≤ 2 (Poor)',            c:'#ea580c' },
